@@ -75,7 +75,7 @@
           placeholder="Ограничение по памяти"
           v-model="p.restrictions.memory"
         />
-        <UTextarea placeholder="Условия задачи" v-model="p.statement" resize />
+        <UTextarea placeholder="Условие задачи" v-model="p.statement" resize />
 
         <!-- <UInput
           type="file"
@@ -83,6 +83,7 @@
           v-model="p.testSamples"
         ></UInput> -->
 
+        <p>Тесты</p>
         <input
           class="w-full p-2 text-sm bg-white border border-gray-300 rounded-md"
           type="file"
@@ -112,18 +113,14 @@
     console.log("Add problem")
     problems.value.push({
       id: 1,
-      title: "B. Addition Problem",
+      title: "",
       restrictions: {
-        memory: 512, // in megabytes
-        time: 2000, // in milliseconds
+        memory: null, // in megabytes
+        time: null, // in milliseconds
         input: "input.txt",
         output: "output.txt",
       },
-      statement:
-        "Даны два числа A и B. Вам нужно вычислить их сумму A+B. В этой задаче для работы с входными и выходными данными вы можете использовать и файлы и потоки на ваше усмотрение.",
-      inputFormat:
-        "Даны два числа A и B. Вам нужно вычислить их сумму A+B. В этой задаче для работы с входными и выходными данными вы можете использовать и файлы и потоки на ваше усмотрение.",
-      outputFormat: "В единственной строке выхода выведите сумму чисел A + B",
+      statement: "",
       testSamples: [],
     } as ProblemEntity)
   }
@@ -140,7 +137,7 @@
     const file = input.files[0]
     console.log("file", file)
 
-    p.testSamples.push(file)
+    // p.testSamples.push(file)
   }
 
   const importedContestId = ref<string>("")

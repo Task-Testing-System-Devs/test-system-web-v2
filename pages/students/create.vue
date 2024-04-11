@@ -3,7 +3,7 @@
 
   <div class="flex flex-col space-y-6 text-sm">
     <div class="space-y-2">
-      <p>Импортировать аккаунты из файла:</p>
+      <p>Импортировать аккаунты из CSV файла:</p>
       <div class="flex flex-row mb-8 space-x-4">
         <input
           class="p-2 text-sm bg-white border border-gray-300 rounded-md"
@@ -22,17 +22,17 @@
 
     <div class="space-y-2">
       <p>Имя:</p>
-      <UInput placeholder="Евгений" v-model="student.firstName" />
+      <UInput placeholder="Евгений" v-model="student.first_name" />
     </div>
 
     <div class="space-y-2">
       <p>Фамилия:</p>
-      <UInput placeholder="Нугаев" v-model="student.lastName" />
+      <UInput placeholder="Хоругвин" v-model="student.last_name" />
     </div>
 
     <div class="space-y-2">
       <p>Отчество:</p>
-      <UInput placeholder="Студентович" v-model="student.middleName" />
+      <UInput placeholder="Бордюрович" v-model="student.middle_name" />
     </div>
 
     <div class="space-y-2">
@@ -64,25 +64,44 @@
     class="px-6 py-3 mt-8"
     color="primary"
     label="Зарегистрировать"
-    @click="registerStudent"
+    @click="() => registerStudent()"
   />
 </template>
 
 <script setup lang="ts">
   const student = ref({
-    firstName: "Evgeny",
-    lastName: "Studentov",
-    middleName: "Studentovich",
-    email: "ebstartsev@edu.hse.ru",
-    password: "qwerty_123$!#@",
-    department: "Информатика, инженерия и математика",
-    group: "10И3",
+    first_name: "",
+    last_name: "",
+    middle_name: "",
+    email: "",
+    password: "",
+    department: "",
+    group: "",
+    role: "student",
   })
 
-  const registerStudent = () => {
+  const apiStore = useApiStore()
+
+  const toast = useToast()
+
+  async function registerStudent() {
     console.log("student", student.value)
-    // отправить в апи
+    // await apiStore.registerStudent(student.value)
+    toast.add({
+      title: "Студент успешно зарегистирован!",
+      icon: "i-heroicons-check",
+    })
   }
+
+  
+  // watch(isStudentRegistered, newValue => {
+  //   if (newValue) {
+  //     toast.add({
+  //       title: "Студент успешно зарегистирован!",
+  //       icon: "i-heroicons-check",
+  //     })
+  //   }
+  // })
 
   const fileRef = ref<File>()
 

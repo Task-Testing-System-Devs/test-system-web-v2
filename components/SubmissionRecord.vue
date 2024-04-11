@@ -1,4 +1,5 @@
 <template>
+  <div v-if="isVisible">
   <UAccordion
     color="white"
     class="w-full bg-white rounded-md h-fit"
@@ -12,10 +13,10 @@
         :ui="{ rounded: 'rounded-none', padding: { sm: 'p-3' } }"
       >
         <div class="flex flex-col items-start px-4 py-2">
-          <span class="truncate"> Решение по задаче {{ item.problem }} </span>
+          <span class="truncate"> {{ submissionEntity.taskName }}: решение </span>
           <span class="pt-2 text-xs text-gray-500">
             <!-- {{ item.submissionTime }} -->
-            {{ item.id }}
+            ID: {{ item.id }}
           </span>
         </div>
 
@@ -25,10 +26,10 @@
           <p>Память</p>
           <p>Язык</p>
           <p>Результат</p>
-          <p>{{ submissionEntity.time }}</p>
-          <p>{{ submissionEntity.memory }}</p>
+          <p>{{ submissionEntity.usedTime }}</p>
+          <p>{{ submissionEntity.usedMemory }}</p>
           <p>{{ submissionEntity.language }}</p>
-          <p>{{ submissionEntity.verdict }}</p>
+          <p>{{ submissionEntity.status }}</p>
         </div>
 
         <template #trailing>
@@ -43,7 +44,7 @@
     <template #item="{ item }">
       <div class="px-4 py-2">
         <p class="pl-3 text-gray-900 dark:text-white">Исходный код:</p>
-        <p class="pt-2 pl-3 text-xs text-gray-500 dark:text-white">
+        <p class="pt-2 pl-3 text-xs text-gray-500 dark:text-white" style="white-space: pre-line;">
           {{ item.code }}
         </p>
         <div class="pt-4 mx-3">
@@ -63,6 +64,7 @@
       </div>
     </template>
   </UAccordion>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -71,6 +73,7 @@
 
   type Props = {
     submissionEntity: SubmissionEntity
+    isVisible: boolean
   }
 
   defineProps<Props>()

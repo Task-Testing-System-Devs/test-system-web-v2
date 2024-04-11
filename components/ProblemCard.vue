@@ -29,10 +29,10 @@
             </div>
             <div class="flex flex-col items-end space-y-2">
               <p class="text-gray-500">
-                {{ problemEntity.restrictions.time }}мс
+                {{ problemEntity.restrictions.time }} с
               </p>
               <p class="text-gray-500">
-                {{ problemEntity.restrictions.memory }}МБ
+                {{ problemEntity.restrictions.memory }} МБ
               </p>
               <p class="text-gray-500">
                 {{ problemEntity.restrictions.input }}
@@ -52,20 +52,10 @@
       </div>
     </template>
 
-    <p class="text-gray-800 text-md">{{ problemEntity.statement }}</p>
-
-    <div class="mt-8">
-      <h4 class="text-xl font-medium">Формат ввода</h4>
-      <p class="mt-4 text-gray-800 text-md">{{ problemEntity.inputFormat }}</p>
-    </div>
-
-    <div class="mt-8">
-      <h4 class="text-xl font-medium">Формат вывода</h4>
-      <p class="mt-4 text-gray-800 text-md">{{ problemEntity.outputFormat }}</p>
-    </div>
-
+    <p class="text-gray-800 text-lg">{{ problemEntity.statement }}</p>
+ 
     <template #footer>
-      <div class="mt-8">
+      <div class="mt-2">
         <h4 class="text-xl font-medium">Примеры</h4>
         <div class="mt-4" v-for="(sample, i) in problemEntity.testSamples">
           <UCard
@@ -75,9 +65,9 @@
               },
             }"
           >
-            <template #header>
-              <h5 class="text-lg">Пример #{{ i + 1 }}</h5>
-            </template>
+            
+              <h4 class="text-lg">Пример #{{ i + 1 }}</h4>
+            
             <div class="flex flex-row space-x-8">
               <div class="w-full mt-4">
                 <h6 class="text-md">Ввод</h6>

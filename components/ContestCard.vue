@@ -86,11 +86,11 @@
   const {contestEntity} = defineProps<Props>()
 
   const difficultyColor = computed(() => {
-    if (contestEntity.difficulty === "1/5") return "#FFD700"
-    if (contestEntity.difficulty === "2/5") return "#FFA500"
-    if (contestEntity.difficulty === "3/5") return "#FF8C00"
-    if (contestEntity.difficulty === "4/5") return "#FF4500"
-    if (contestEntity.difficulty === "5/5") return "#FF0000"
+    if (contestEntity.difficulty === "1/5") return "#00CB08"
+    if (contestEntity.difficulty === "2/5") return "#FFA901"
+    if (contestEntity.difficulty === "3/5") return "#FFA901"
+    if (contestEntity.difficulty === "4/5") return "#FF0101"
+    if (contestEntity.difficulty === "5/5") return "#FF0101"
     return "#000000"
   });
 </script>

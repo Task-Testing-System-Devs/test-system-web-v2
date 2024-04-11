@@ -1,156 +1,44 @@
 import { defineStore } from "pinia"
 import type { SubmissionEntity } from "~/entities/submission"
 
-export const useSubmissionStore = defineStore("submission", () => {
-  const submissions = ref<SubmissionEntity[]>([
-    {
-      id: 1,
-      problem: "A",
-      verdict: "OK",
-      language: "C++",
-      time: "1.2s",
-      memory: "256mb",
-      code: "int main() { return 0; }",
-      points: 100,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 2,
-      problem: "B",
-      verdict: "WA",
-      language: "Python",
-      time: "2.2s",
-      memory: "512mb",
-      code: "print(1)",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 3,
-      problem: "C",
-      verdict: "TLE",
-      language: "C++",
-      time: "3.2s",
-      memory: "1024mb",
-      code: "int main() { while (true) {} }",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 4,
-      problem: "D",
-      verdict: "RE",
-      language: "C++",
-      time: "4.2s",
-      memory: "2048mb",
-      code: "int main() { int *a = new int[100]; }",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 5,
-      problem: "E",
-      verdict: "OK",
-      language: "C++",
-      time: "5.2s",
-      memory: "4096mb",
-      code: "int main() { return 0; }",
-      points: 100,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 6,
-      problem: "F",
-      verdict: "WA",
-      language: "Python",
-      time: "6.2s",
-      memory: "8192mb",
-      code: "print(1)",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
+function snakeToCamel(s: string): string {
+  return s.replace(/(_\w)/g, (m) => m[1].toUpperCase());
+}
 
-    {
-      id: 11,
-      problem: "A",
-      verdict: "OK",
-      language: "C++",
-      time: "1.2s",
-      memory: "256mb",
-      code: "int main() { return 0; }",
-      points: 100,
-      submissionTime: "23 мая, 16:00",
-    },
-    // сгенерь еще 10 таких
-    {
-      id: 12,
-      problem: "B",
-      verdict: "WA",
-      language: "Python",
-      time: "2.2s",
-      memory: "512mb",
-      code: "print(1)",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 13,
-      problem: "C",
-      verdict: "TLE",
-      language: "C++",
-      time: "3.2s",
-      memory: "1024mb",
-      code: "int main() { while (true) {} }",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 7,
-      problem: "G",
-      verdict: "TLE",
-      language: "C++",
-      time: "7.2s",
-      memory: "16384mb",
-      code: "int main() { while (true) {} }",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 8,
-      problem: "H",
-      verdict: "RE",
-      language: "C++",
-      time: "8.2s",
-      memory: "32768mb",
-      code: "int main() { int *a = new int[100]; }",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 9,
-      problem: "I",
-      verdict: "OK",
-      language: "C++",
-      time: "9.2s",
-      memory: "65536mb",
-      code: "int main() { return 0; }",
-      points: 100,
-      submissionTime: "23 мая, 16:00",
-    },
-    {
-      id: 10,
-      problem: "J",
-      verdict: "WA",
-      language: "Python",
-      time: "10.2s",
-      memory: "131072mb",
-      code: "print(1)",
-      points: 0,
-      submissionTime: "23 мая, 16:00",
-    },
-  ])
-  
-  return {submissions}
+function isObject(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === 'object' && !Array.isArray(value);
+}
+
+function convertKeysToCamelCase<T>(obj: unknown): T {
+  if (Array.isArray(obj)) {
+    return obj.map(item => convertKeysToCamelCase(item)) as unknown as T;
+  }
+  else if (isObject(obj)) {
+    const newObj: Record<string, unknown> = {};
+    Object.keys(obj).forEach((key) => {
+      const newKey = snakeToCamel(key);
+      newObj[newKey] = convertKeysToCamelCase(obj[key]);
+    });
+    return newObj as T;
+  }
+  return obj as T;
+}
+
+export const useSubmissionStore = defineStore("submission", () => {
+  const apiStore = useApiStore()
+
+  const submissions = ref<SubmissionEntity[]>([])
+
+  onMounted(async () => {
+    await getSubmissions()
+  })
+
+  async function getSubmissions() {
+    const response = await apiStore.getSubmissions()
+    submissions.value = convertKeysToCamelCase<SubmissionEntity[]>(response)
+  }
+
+  return { submissions }
 })
 
 // if (import.meta.hot) {

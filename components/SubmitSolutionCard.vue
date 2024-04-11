@@ -42,13 +42,6 @@
             />
           </UDropdown>
         </div>
-        <div class="flex flex-col items-end space-y-2">
-          <img
-            src="/img/Dropzone.svg"
-            alt="Dropzone"
-            class="pointer-events-none"
-          />
-        </div>
       </div>
     </template>
 
@@ -84,9 +77,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from "vue"
+  import { ref, defineEmits } from "vue"
   import type { ProblemEntity } from "~/entities/problem"
   import type { ContestEntity } from "~/entities/contest"
+  import {  } from 'vue';
+
+  const emit = defineEmits(['show-submission']);
+
+  const emitShowEvent = () => {
+    emit('show-submission');
+  };
 
   type Props = {
     problemEntity: ProblemEntity
@@ -106,8 +106,9 @@
     // todo send solution to the server
     setTimeout(() => {
       isSolutionLoading.value = false
+      emitShowEvent()
       isSolutionLoaded.value = true
-    }, 2000)
+    }, 3200)
   }
 
   function onNextProblem() {

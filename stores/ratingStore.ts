@@ -7,21 +7,34 @@ export const useRatingStore = defineStore("rating", () => {
   const users = ref<UserEntity[]>([])
 
   onMounted(async () => {
-    users.value = await apiStore.getRatingByMarks()
+    await sortByMarks()
   })
 
   async function sortByMarks() {
-    users.value = await apiStore.getRatingByMarks()
+    const response = await apiStore.getRatingByMarks()
+    users.value = response.map((item: UserRating) => item.userShortInfo);
+    
   }
 
   async function sortByTasks() {
-    users.value = await apiStore.getRatingByTasks()
+    const response = await apiStore.getRatingByTasks()
+    users.value = response.map((item: UserRating) => item.userShortInfo);
+  }
+
+  async function downloadByTasks() {
+    await apiStore.downloadRatingByTasks();
+  }
+
+  async function downloadByMarks() {
+    await apiStore.downloadRatingByMarks();
   }
 
   return {
     users,
     sortByMarks,
     sortByTasks,
+    downloadByMarks,
+    downloadByTasks,
   }
 })
 

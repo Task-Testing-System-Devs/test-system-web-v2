@@ -23,9 +23,9 @@
         <div
           class="flex flex-col items-center justify-center py-8 bg-white rounded-b-lg w-fit h-fit"
         >
-          <div class="mb-4 text-xl font-medium text-center">Вы на 7 месте!</div>
+          <div class="mb-4 text-xl font-medium text-center">Вы на 1 месте!</div>
           <div class="mb-4 text-center">
-            Еще 13 баллов до 6 места. Решайте задачи — зарабатывайте баллы
+            Решайте больше задач - зарабатывайте больше баллов!
           </div>
           <NuxtLink to="/contests">
             <UButton class="px-4 py-2"> Решать задачи </UButton>
@@ -78,11 +78,11 @@
 
   function downloadRatingByMarks() {
     console.log("Download rating by marks")
-    // ratingStore.downloadRatingByMarks()
+    ratingStore.downloadByMarks();
   }
 
   function downloadRatingByTasks() {
     console.log("Download rating by tasks")
-    // ratingStore.downloadRatingByTasks()
+    ratingStore.downloadByTasks();
   }
 </script>
